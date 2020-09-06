@@ -1,0 +1,4 @@
+{
+  "emmet.includeLanguages": { "njk": "html" },
+  "editor.tabSize": 2
+}

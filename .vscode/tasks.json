@@ -1,13 +1,3 @@
 {
-	"version": "2.0.0",
-	"tasks": [
-		{
-			"type": "gulp",
-			"task": "default",
-			"problemMatcher": [
-				"$gulp-tsc"
-			],
-			"label": "gulp: default"
-		}
-	]
+  "version": "2.0.0"
 }

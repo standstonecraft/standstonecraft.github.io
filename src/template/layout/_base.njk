@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if pageTitle %}
+      <title>{{ pageTitle }}
+        | stadstonecomplex.github.io</title>
+    {% else %}
+      <title>stadstonecomplex.github.io</title>
+    {% endif %}
+
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.5.7/dist/css/uikit.min.css"/>
+    {% block css -%}{%- endblock %}
+
+  </head>
+  <body>
+    <nav class="uk-background-secondary uk-light uk-margin-bottom" uk-navbar="uk-navbar">
+      <div class="uk-navbar-left">
+        <a class="uk-navbar-item uk-logo" href="/">stadstonecomplex.github.io</a>
+      </div>
+    </nav>
+    <div class="uk-container">
+      {% block content %}{% endblock %}
+    </div>
+
+    <!-- UIkit JS -->
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.5.7/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.5.7/dist/js/uikit-icons.min.js"></script>
+    {% block js -%}{%- endblock %}
+  </body>
+</html>
