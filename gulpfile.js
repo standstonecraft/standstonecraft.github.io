@@ -12,6 +12,8 @@ const rename = require('gulp-rename');
 const cleanCss = require('gulp-clean-css');
 const browserSync = require('browser-sync');
 const babel = require('gulp-babel');
+const data = require('gulp-data');
+const path = require('path');
 // // プラグインを呼び出し
 // const sass = require('gulp-sass');
 
@@ -27,9 +29,9 @@ const babel = require('gulp-babel');
 const paths = {
   src: {
     njkRoot: 'src/template/',
-    html: 'src/template/page/**/*.njk',
-    js: 'src/js/**/*.js',
-    css: 'src/js/**/*.css',
+    html: 'src/template/page/',
+    js: 'src/js/',
+    css: 'src/js/',
   },
   dest: {
     root: 'docs/',
@@ -44,12 +46,27 @@ const beautify_option = {
 
 const njk = () =>
   gulp
-    .src(paths.src.html)
+    .src(paths.src.html + '**/*.njk')
     // .pipe(
     //   data(function () {
     //     return require(paths.src.json);
     //   })
     // )
+    .pipe(
+      data(file => {
+        let json = {};
+        json.data = {};
+        json.data.rootURL = 'https://standstonecraft.github.io/';
+        json.data.path = {};
+        json.data.path.dirName = path.dirname(file.path);
+        json.data.path.fileName = path.basename(file.path);
+        json.data.path.baseName = path.basename(file.path, '.njk');
+        json.data.path.relativeDir = path.relative(paths.src.html, json.data.path.dirName);
+        json.data.path.relative = path.relative(paths.src.html, file.path);
+        json.data.path.htmlPath = path.join(json.data.path.relativeDir, json.data.path.baseName + '.html');
+        return json;
+      })
+    )
     .pipe(
       nunjucks({
         path: paths.src.njkRoot,
@@ -60,7 +77,7 @@ const njk = () =>
 
 const js = () =>
   gulp
-    .src(paths.src.js)
+    .src(paths.src.js + '**/*.js')
     .pipe(
       babel({
         presets: ['@babel/preset-env'],
@@ -72,7 +89,7 @@ const js = () =>
 
 const css = () =>
   gulp
-    .src(paths.src.css)
+    .src(paths.src.css + '**/*.css')
     .pipe(cleanCss())
     .pipe(rename({ extname: '.min.css' }))
     .pipe(gulp.dest(paths.dest.css));
@@ -88,8 +105,8 @@ const reload = () => browserSync.reload();
 
 const watch = function () {
   gulp.watch(paths.src.njkRoot + '**/*', gulp.series(njk));
-  gulp.watch(paths.src.js, gulp.series(js));
-  gulp.watch(paths.src.css, gulp.series(css));
+  gulp.watch(paths.src.js + '**/*.js', gulp.series(js));
+  gulp.watch(paths.src.css + '**/*.css', gulp.series(css));
   gulp.watch(paths.dest.root + '**/*', gulp.series(reload));
 };
 

@@ -1,14 +1,38 @@
+{% if pageTitle %}
+  {% set fixedPageTitle = pageTitle + ' | stadstonecomplex.github.io' %}
+{% else %}
+  {% set fixedPageTitle = 'stadstonecomplex.github.io' %}
+{% endif %}
+{% if self._TemplateReference__context.name == 'index.njk' %}
+  {% set ogType = 'website' %}
+{% else %}
+  {% set ogType = 'article' %}
+{% endif %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% if pageTitle %}
-      <title>{{ pageTitle }}
-        | stadstonecomplex.github.io</title>
-    {% else %}
-      <title>stadstonecomplex.github.io</title>
+    {# 
+    <meta property="og:title" content="ページのタイトル"/>
+    <meta property="og:type" content="種類"/>
+    <meta property="og:url" content="ページのURL"/>
+    <meta property="og:image" content="画像のURL"/>
+    <meta property="og:description" content="説明文"/>
+    <meta property="og:site_name" content="サイトのタイトル"/>
+    <meta name="twitter:card" content="summaryやsummary_large_imageなど"/>
+     #}
+    <meta property="og:title" content="{{ fixedPageTitle }}"/>
+    <meta property="og:type" content="{{ ogType }}"/>
+    <meta property="og:url" content="{{ data.rootURL }}{{ data.path.htmlPath }}"/>
+    {% if ogImage %}
+      <meta property="og:image" content="{{ ogImage }}"/>
     {% endif %}
+    {# <meta property="og:description" content="説明文"/> #}
+    <meta property="og:site_name" content="{{ fixedPageTitle }}"/>
+    <meta name="twitter:card" content="summary_large_image"/>
+
+    <title>{{ fixedPageTitle }}</title>
 
     <!-- UIkit CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.5.7/dist/css/uikit.min.css"/>
